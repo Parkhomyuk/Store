@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
     'accounts',
     'store'
 ]
@@ -92,7 +93,13 @@ DATABASES = {
 REST_FRAMEWORK={
     'DEFAULT_PERMISSION_CLASS':[
         'rest_frmaework.permission.AllowAny'
-    ]
+    ],
+     
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+         
+    ),
+    
 }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

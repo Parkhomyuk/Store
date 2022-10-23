@@ -1,9 +1,9 @@
 from dataclasses import field, fields
-from itertools import product
+ 
 from pyexpat import model
 from rest_framework import serializers
 
-from store.models import Brand, Category, Product, Subcategory
+from store.models import Brand,  CategoryPlaceTable, CategoryTable, Characteristic, CharacteristicType, ParentCharacteristic, ParentCharacteristicType, Product
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,18 +18,64 @@ class ProductSerializer(serializers.ModelSerializer):
         model=Product
         depth = 2
 
-class SubcategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        fields='__all__'
-        model= Subcategory
-        depth=1
-class SubcategoryWriteSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields='__all__'
-        model= Subcategory
-                
+ 
 
-class CategorySerializer(serializers.ModelSerializer):
+class ParentCharacteristicTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        fields=('name'),
-        model=Category
+        fields='__all__'
+        model=ParentCharacteristicType
+
+class CharacteristicTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields='__all__'
+        model= CharacteristicType        
+
+class ParentCharacteristicSerializer(serializers.ModelSerializer):
+    class Meta:
+        field='__all__'
+        model= ParentCharacteristic
+
+class CharacteristicSerializer(serializers.ModelSerializer):
+    class Meta:
+        field='__all__'
+        model= Characteristic        
+
+       
+
+ 
+class CategoryPlaceTableSerializer(serializers.ModelSerializer):
+    child=serializers.SerializerMethodField()
+    def get_child(self, obj):
+        children=CategoryPlaceTable.objects.filter(parentId=obj.categoryId)
+        return CategoryPlaceTableSerializer(children, many=True).data 
+    class Meta:
+        fields=['id','parentId','level','categoryId','child' ]
+        model=CategoryPlaceTable           
+
+        
+
+class CategoryTableSerializer(serializers.ModelSerializer):
+    # child=serializers.StringRelatedField(many=True)    
+    # child=serializers.PrimaryKeyRelatedField(many=True, read_only='True')    
+    level=serializers.SerializerMethodField()   
+    parent=serializers.SerializerMethodField()
+    def get_level(self, place):
+        level_n = CategoryPlaceTable.objects.filter(categoryId=place.id).order_by('-level')
+        if len(CategoryPlaceTableSerializer(level_n, many=True).data)>0:
+            return CategoryPlaceTableSerializer(level_n, many=True).data[0]['level']
+        else:
+            return None    
+    def get_parent(self,category):
+        children=CategoryPlaceTable.objects.filter(categoryId=category.id)  
+        if len(CategoryPlaceTableSerializer(children, many=True).data)>0:
+            res=CategoryTableSerializer(CategoryTable.objects.filter(id=CategoryPlaceTableSerializer(children, many=True).data[0]['parentId']), many=True).data[0]['name']
+             
+            return res
+        else:
+            return None       
+     
+    class Meta:
+        # fields=['id','name','level','parent']
+        fields='__all__'
+        model=CategoryTable    
+        ordering=('level',)  
