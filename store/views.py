@@ -5,11 +5,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
  
-from store.models import Brand,     CategoryPlaceTable, CategoryTable, Characteristic, CharacteristicType, ParentCharacteristic, Product  
+from store.models import Brand,     CategoryPlaceTable, CategoryTable, Characteristic, CharacteristicType, ParentCharacteristic, PriceProduct, Product  
 
 
 
-from store.serializers import BrandSerializer,    CategoryPlaceTableSerializer,   CategoryTableSerializer, CharacteristicSerializer, CharacteristicTypeSerializer, ParentCharacteristicSerializer,  ProductSerializer
+from store.serializers import BrandSerializer,    CategoryPlaceTableSerializer,   CategoryTableSerializer, CharacteristicSerializer, CharacteristicTypeSerializer, ParentCharacteristicSerializer, PriceProductSerializer,  ProductSerializer
 
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
@@ -59,3 +59,9 @@ class CategoryPlaceTableViewSet(viewsets.ModelViewSet):
         search_fields = ['=level', 'parentId','id']
         ordering_fields = ['level', 'id']
         ordering = ['level',]
+
+
+class PriceProductViewSet(viewsets.ModelViewSet):
+        queryset=PriceProduct.objects.all()
+        serializer_class=PriceProductSerializer
+        

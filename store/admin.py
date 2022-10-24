@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import  CategoryPlaceTable, CategoryTable, Characteristic, CharacteristicType, ParentCharacteristic, ParentCharacteristicType, Product, Brand
+from .models import  CategoryPlaceTable, CategoryTable, Characteristic, CharacteristicType, ParentCharacteristic, ParentCharacteristicType, PriceProduct, Product, Brand
 
 
 @admin.register(CategoryTable)
@@ -19,7 +19,6 @@ admin.site.register(Brand)
 admin.site.register(ParentCharacteristicType)
 admin.site.register(CharacteristicType)
 admin.site.register(ParentCharacteristic)
-admin.site.register(Characteristic)
- 
- 
+admin.site.register(Characteristic) 
 admin.site.register(CategoryPlaceTable)
+admin.site.register(PriceProduct)

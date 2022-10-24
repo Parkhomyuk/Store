@@ -3,7 +3,7 @@ from dataclasses import field, fields
 from pyexpat import model
 from rest_framework import serializers
 
-from store.models import Brand,  CategoryPlaceTable, CategoryTable, Characteristic, CharacteristicType, ParentCharacteristic, ParentCharacteristicType, Product
+from store.models import Brand,  CategoryPlaceTable, CategoryTable, Characteristic, CharacteristicType, ParentCharacteristic, ParentCharacteristicType, PriceProduct, Product
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,3 +79,15 @@ class CategoryTableSerializer(serializers.ModelSerializer):
         fields='__all__'
         model=CategoryTable    
         ordering=('level',)  
+
+class PriceProductSerializer(serializers.ModelSerializer):
+    create_by=serializers.HiddenField(default=serializers.CurrentUserDefault())
+    update_by=serializers.HiddenField(default=serializers.CurrentUserDefault())
+    class Meta:
+        model=PriceProduct    
+        fields=('product','create_by','update_by', 'date_create', 'date_update', 'date_start', 'date_end')
+    def validate(self,obj):
+        if obj['date_end'] < obj['date_start']:
+            raise serializers.ValidationError('End date should be greater than Start Date')
+        return obj    
+     

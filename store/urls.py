@@ -1,17 +1,17 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from store.views import BrandDetail, BrandList,  CategoryPlaceTableViewSet, CategoryTableViewSet,  CharacteristicTypeTypeViewSet, CharacteristicViewSet, ParentCharacteristicViewSet,   ProductDetails, ProductList
+from store.views import BrandDetail, BrandList,  CategoryPlaceTableViewSet, CategoryTableViewSet,  CharacteristicTypeTypeViewSet, CharacteristicViewSet, ParentCharacteristicViewSet, PriceProductViewSet,   ProductDetails, ProductList
 
 router=routers.SimpleRouter()
  
  
 router.register('characteristic_types', CharacteristicTypeTypeViewSet)
 router.register('parent_characteristic', ParentCharacteristicViewSet)
-router.register('product_characteristics', CharacteristicViewSet)
- 
+router.register('product_characteristics', CharacteristicViewSet) 
 router.register('category_table', CategoryTableViewSet)
 router.register('category_place', CategoryPlaceTableViewSet)
+router.register('prices', PriceProductViewSet)
 
 urlpatterns=[
     # path('category/', CategoryViewSet.as_view({'get':'list'})),

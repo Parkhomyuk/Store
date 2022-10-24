@@ -1,7 +1,8 @@
  
-from email.policy import default
-from enum import unique
 from django.db import models
+from django.contrib.auth.models import User
+
+from accounts.models import CustomUser
  
  
 
@@ -70,3 +71,11 @@ class Characteristic(models.Model):
     def __str__(self):
         return self.value
      
+class PriceProduct(models.Model):
+    product=models.ForeignKey(Product, on_delete=models.RESTRICT)
+    create_by=models.ForeignKey(CustomUser, on_delete=models.RESTRICT, related_name='admin_create')
+    update_by=models.ForeignKey(CustomUser, on_delete=models.RESTRICT,related_name='admin_update')
+    date_create= models.DateTimeField(auto_now_add=True)
+    date_update= models.DateTimeField(auto_now=True)
+    date_start= models.DateTimeField()
+    date_end= models.DateTimeField(null=True)
