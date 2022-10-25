@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'accounts',
+    'store'
 ]
 AUTH_USER_MODEL='accounts.CustomUser'
 MIDDLEWARE = [
@@ -79,7 +81,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'store',
+        'NAME': 'store_db',
         'USER': 'postgres',
         'HOST': 'localhost',
         'PASSWORD':'Sokolov254',
@@ -87,7 +89,11 @@ DATABASES = {
     }
 }
 
-
+REST_FRAMEWORK={
+    'DEFAULT_PERMISSION_CLASS':[
+        'rest_frmaework.permission.AllowAny'
+    ]
+}
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 # AUTH_USER_MODEL='accounts.CustomerUser'
