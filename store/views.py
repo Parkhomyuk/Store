@@ -5,19 +5,24 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
  
-from store.models import Brand,     CategoryPlaceTable, CategoryTable, Characteristic, CharacteristicType, ParentCharacteristic, PriceProduct, Product  
+from store.models import Brand,     CategoryPlaceTable, CategoryTable, Characteristic, CharacteristicType, FeedBackOpinion, FeedBackVote, ParentCharacteristic, PriceProduct, PriceProductRepresent, Product  
 
 
 
-from store.serializers import BrandSerializer,    CategoryPlaceTableSerializer,   CategoryTableSerializer, CharacteristicSerializer, CharacteristicTypeSerializer, ParentCharacteristicSerializer, PriceProductSerializer,  ProductSerializer
+from store.serializers import BrandSerializer,    CategoryPlaceTableSerializer,   CategoryTableSerializer, CharacteristicSerializer, CharacteristicTypeSerializer, FeedBackOpinionSerializer, FeedBackVoteSerializer, ParentCharacteristicSerializer, PriceProductRepresentSerializer, PriceProductSerializer,  ProductSerializer
 
-class ProductList(generics.ListCreateAPIView):
+# class ProductList(generics.ListCreateAPIView):
+#     queryset = Product.objects.all()
+#     serializer_class=ProductSerializer
+
+# class ProductDetails(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Product.objects.all()
+#     serializer_class=ProductSerializer
+class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class=ProductSerializer
+     
 
-class ProductDetails(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Product.objects.all()
-    serializer_class=ProductSerializer
 
 class BrandList(generics.ListCreateAPIView):
     queryset=Brand.objects.all()   
@@ -65,3 +70,14 @@ class PriceProductViewSet(viewsets.ModelViewSet):
         queryset=PriceProduct.objects.all()
         serializer_class=PriceProductSerializer
         
+class PriceProducRepresenttViewSet(viewsets.ModelViewSet):
+        queryset=PriceProductRepresent.objects.all()
+        serializer_class=PriceProductRepresentSerializer
+
+class FeedBackOpinionViewSet(viewsets.ModelViewSet):
+        queryset=FeedBackOpinion.objects.all()
+        serializer_class=FeedBackOpinionSerializer
+
+class FeedBackVoteViewSet(viewsets.ModelViewSet):
+        queryset=FeedBackVote.objects.all()
+        serializer_class=FeedBackVoteSerializer
